@@ -140,7 +140,11 @@ def main():
             print(f"Error: Failed to read code file: {e}")
             exit(1)
 
-        result = client.submit_code(args.problem_id, args.language, code_text)
+        # Implement missing submit_code: submit source text directly
+        def submit_code(problem_id: int, language: str, code_text: str):
+            data = {"language": language, "code": code_text}
+            return client._make_request("POST", f"/problem/{problem_id}/submit", data=data)
+        result = submit_code(args.problem_id, args.language, code_text)
 
     elif args.command == "status":
         result = client.get_submission_detail(args.submission_id)
